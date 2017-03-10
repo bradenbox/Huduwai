@@ -24,7 +24,7 @@ slapp.message('hi (.*)', ['direct_message','direct_mention','mention'], (msg, te
 
 
 slapp.route('handleHi', (msg, state) =>{
-	msg.say(':smile ' + state.what);
+	msg.say(':smile: ' + state.what);
 })
 
 
