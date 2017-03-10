@@ -18,24 +18,16 @@ var slapp = Slapp({
 
 var server = slapp.attachToExpress(express())
 
-var app = {
-  slapp,
-  server,
-  kv: BeepBoopPersist({ provider: config.persist_provider }),
-  chronos: Chronos({ 
-    beepboop_token: config.beepboop_token, 
-    beepboop_project_id: config.beepboop_project_id
-  })
-}
-
-require('./src/flows')(app)
-server.get('/', function (req, res) {
-  res.send('Hello')
+slapp.message('hi (.*)', ['direct_message'], (msg, text, match1) => {
+	msg.say('How are you?').route('handleHi', {what: match1});
 })
 
-server.get('/healthz', function (req, res) {
-  res.send({ version: process.env.VERSION, id: process.env.BEEPBOOP_ID })
+
+slapp.route('handleHi', (msg, state) =>{
+	msg.say(':smile ' + state.what);
 })
+
+
 
 console.log('Listening on :' + config.port)
 server.listen(config.port)
