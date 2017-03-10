@@ -1,12 +1,12 @@
 {
   "name": "inout",
   "version": "0.0.1",
-  "description": "Slackbot for tracking who is in and who is out",
+  "description": "Slackbot for finding local experts",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Mike Brevoort",
+  "author": "Halogen Software",
   "license": "MIT",
   "dependencies": {
     "beepboop-persist": "^0.2.1",
