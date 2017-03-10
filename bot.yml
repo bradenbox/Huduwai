@@ -1,12 +1,9 @@
 name: Braden
 description:
 email: bbox@halogensoftware.com
-avatar: .beepboop/inorout-icon.png
-background: .beepboop/inorout-bg.png
+avatar: 
+background: 
 screenshots:
-  - screenshot: .beepboop/screenshot1.png
-  - screenshot: .beepboop/screenshot2.png
-  - screenshot: .beepboop/screenshot3.png
 slackscopes:
   - bot
   - commands
