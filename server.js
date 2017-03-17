@@ -22,12 +22,9 @@ slapp.message('hi (.*)', ['direct_message','direct_mention','mention'], (msg, te
 	msg.say('How are you?').route('handleHi', {what: match1});
 })
 
-
 slapp.route('handleHi', (msg, state) =>{
-	msg.say(':smile: ' + state.what);
-})
-
-
+	msg.say(':smile ' + state.what);
+}) 
 
 console.log('Listening on :' + config.port)
 server.listen(config.port)
