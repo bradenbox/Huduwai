@@ -60,13 +60,13 @@ slapp.message('(.*)', ['direct_mention'], (msg, text, match2) => {
 slapp.route('handleKnows', (msg, state2) =>{
 	var listOfAllowedNames = ['java','programming','html','software','development','testing'];
 	//msg.say(state2.what);
-	if(listOfAllowedNames.indexOf(state.what) > -1)
+	if((state2.what.trim()) === "java")
 	{
-		msg.say(sendRequestForRecommendation());
+		msg.say("Huduwai");
 	}
 	else
 	{
-		msg.say("Sorry!");
+		msg.say("Sorry");
 	}
 }) 
 
