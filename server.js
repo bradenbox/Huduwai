@@ -26,5 +26,11 @@ slapp.route('handleHi', (msg, state) =>{
 	msg.say(':smile ' + state.what);
 }) 
 
+
+slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
+	var listOfNames = "no one"
+	msg.say(listOfNames);
+})
+
 console.log('Listening on :' + config.port)
 server.listen(config.port)
