@@ -20,6 +20,8 @@ var slapp = Slapp({
 
 var server = slapp.attachToExpress(express())
 
+var listOfAllowedNames = ['java','programming','html','software','development','testing'];
+
 // Slapp context middleware function
 // Looks up team info from db and enriches request
 module.exports = (db) => {
@@ -80,17 +82,17 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 
 
 slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
-	msg.route('handleKnows', {what: match});
+	msg.say('Checking').route('handleKnows', {what: match});
 })
 
 slapp.route('handleKnows', (msg, state) =>{
-	var listOfAllowedNames = ['java','programming','html','software','development','testing'];
 	//msg.say(state2.what);
 	if(listOfAllowedNames.indexOf(state.what.trim()) > -1)
 	{
 		msg.say("Huduwai");
 	}
 	else{
+		listOfAllowedNames.push(state.what.trim());
 		msg.say("Sorry");
 	}
 }) 
