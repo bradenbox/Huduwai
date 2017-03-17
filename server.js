@@ -57,25 +57,33 @@ slapp.route('handleHi', (msg, state) =>{
 
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	var listOfNames = "no one";
-	var WebClient = require('@slack/client').WebClient;
 
-	var token = process.env.SLACK_API_TOKEN || ''; //see section above on sensitive data
+	var token = process.env.SLACK_API_TOKEN || '';;
+	//blank
+	var options = {
+  		host: 'slack.com',
+  		path: "/api/users.list?token=" + token  ,
+  		//This is what changes the request to a POST request
+  		method: 'POST'
+	};
+	console.log(options);
+	var request = https.request(options, function(res) {
+  		console.log(res.statusCode);
+ 		 res.on('data', function(d) {
+   			 console.log(process.stdout.write(d));
+ 		 });
+	});
 
-	var web = new WebClient(token);
-	web.chat.postMessage('C1232456', 'Hello there', function(err, res) {
-    	if (err) {
-        	console.log('Error:', err);
-    	} else {
-        	console.log('Message sent: ', res);
-    	}
-});
-
+	request.end();
+	request.on('error', function(e) {
+  	console.error(e);
+	});
 
 })
 
 
 slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
-	msg.say('Checking').route('handleKnows', {what: match});
+	msg.say('Do you want to know expert for '+ match +' ?').route('handleKnows', {what: match});
 })
 
 slapp.route('handleKnows', (msg, state) =>{
