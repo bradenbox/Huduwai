@@ -19,6 +19,8 @@ var slapp = Slapp({
 })
 
 var server = slapp.attachToExpress(express())
+var wordNet = require('wordnet-magic');
+var wn = wordNet(null,true);
 
 var listOfAllowedNames = ['java','programming','html','software','development','testing'];
 
@@ -77,7 +79,15 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 
 
 slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
-	msg.say('Do you want to know expert for '+ match +' ?').route('handleKnows', {what: match});
+	var wn = wordNet(null, false);
+
+	var white = new wn.Word(match);
+
+	var antonymWords = white.getAntonyms().then(function(synsetArray){
+		return synsetArray;
+	});
+
+	msg.say('Do you want to know expert for '+ antonymWords +' ?').route('handleKnows', {what: match});
 })
 
 slapp.route('handleKnows', (msg, state) =>{
