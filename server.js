@@ -33,7 +33,7 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 	var listOfNames = "no one";
 	var options = {
   		host: 'slack.com',
-  		path: "/api/users.list",
+  		path: "/api/users.list?token=" + "slapp.verify_token ,
   		//This is what changes the request to a POST request
   		method: 'POST'
 	};
