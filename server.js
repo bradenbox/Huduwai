@@ -54,7 +54,7 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 
 
 slapp.message('(.*)', ['direct_mention'], (msg, text, match2) => {
-	msg.say(match2).route('handleKnows', {what: match2});
+	msg.route('handleKnows', {what: match2});
 })
 
 slapp.route('handleKnows', (msg, state2) =>{
