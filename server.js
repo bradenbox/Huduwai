@@ -106,24 +106,17 @@ slapp.route('handleKnows', (msg, state) =>{
         ]
       }]
     })
-  // handle the response with this route passing state
-  // and expiring the conversation after 60 seconds
   .route('handleDoitConfirmation', state, 60)
 })
 
 function sendToRecommendFunction(matchWord){
-	return "Deepika";
+	return "SuperUser";
 }
 
 slapp.route('handleDoitConfirmation', (msg, state) => {
-  // if they respond with anything other than a button selection,
-  // get them back on track
   if (msg.type !== 'action') {
     msg
-      .say('Please choose a Yes or No button :wink:')
-      // notice we have to declare the next route to handle the response
-      // every time. Pass along the state and expire the conversation
-      // 60 seconds from now.
+      .say('Please choose a Yes or No button')
       .route('handleDoitConfirmation', state, 60)
     return
   }
