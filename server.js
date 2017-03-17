@@ -4,7 +4,7 @@ const Slapp = require('slapp')
 const BeepBoopConvoStore = require('slapp-convo-beepboop')
 const BeepBoopContext = require('slapp-context-beepboop')
 const BeepBoopPersist = require('beepboop-persist')
-const http = require('http');
+const http = require('https');
 
 const Chronos = require('./src/chronos')
 const config = require('./src/config').validate()
@@ -35,18 +35,15 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 
 	var options = {
   		host: 'slack.com',
-  		path: "api/users.list?token=" + slapp.verify_token,
+  		path: "api/users.list?token=" + "xoxp-144960206292-144174800560-152713541684-7dd667da04fa4023b801752e987eb6c4",
   		//This is what changes the request to a POST request
   		method: 'POST'
 	};
-	var req = http.request(options, writeNames);
+	var req = https.request(options, {
+		msg.say(responseText);
+	});
 	//httpGetAsync("https://slack.com/api/users.list?token=" + slapp.verify_token, writeNames);
 })
-
-function writeNames(responseText){
-	msg.say(responseText);
-}
-
 
 
 
