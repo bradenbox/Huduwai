@@ -52,6 +52,31 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 
 })
 
+
+slapp.message('(.*)', ['direct_mention'], (msg, text, match2) => {
+	msg.route('handleKnows', {what: match2});
+})
+
+slapp.route('handleKnows', (msg, state) =>{
+	var listOfAllowedNames = ['java','programming','html','software','development','testing'];
+	msg.say(state.what);
+	/*if(listOfAllowedNames.indexOf(state.what) > -1)
+	{
+		msg.say(sendRequestForRecommendation());
+	}
+	else
+	{
+		msg.say("Sorry!");
+	}*/
+}) 
+
+function sendRequestForRecommendation(){
+	return "Huduwai!!";
+}
+
+
+
+
 slapp.message('who knows (.*)', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	msg.say('Let me check').route('handleKnows', {what: match1});
 })
