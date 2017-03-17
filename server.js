@@ -20,7 +20,7 @@ var slapp = Slapp({
 
 var server = slapp.attachToExpress(express())
 
-var listOfAllowedNames = ['java','programming','html','software','development','testing'];
+//var listOfAllowedNames = ['java','programming','html','software','development','testing'];
 
 // Slapp context middleware function
 // Looks up team info from db and enriches request
@@ -86,16 +86,13 @@ slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
 })
 
 slapp.route('handleKnows', (msg, state) =>{
-	//msg.say(state2.what);
-	if(listOfAllowedNames.indexOf(state.what.trim()) > -1)
-	{
-		msg.say("Huduwai");
-	}
-	else{
-		listOfAllowedNames.push(state.what.trim());
-		msg.say("Sorry");
-	}
+	var recommend = sendToRecommendFunction();
+	msg.say(recommend);	
 })
+
+function sendToRecommendFunction(){
+	return "You got it!!";
+}
 
 console.log('Listening on :' + config.port)
 server.listen(config.port)
