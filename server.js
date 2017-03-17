@@ -29,12 +29,12 @@ slapp.route('handleHi', (msg, state) =>{
 }) 
 
 slapp.message('(.*)', ['direct_mention'], (msg, text, match2) => {
-	msg.route('handleKnows', {what: match2});
+	msg.say(match2).route('handleKnows', {what: match2});
 })
 
-slapp.route('handleKnows', (msg, state) =>{
+slapp.route('handleKnows', (msg, state2) =>{
 	var listOfAllowedNames = ['java','programming','html','software','development','testing'];
-	msg.say(state.what);
+	msg.say(state2.what);
 	/*if(listOfAllowedNames.indexOf(state.what) > -1)
 	{
 		msg.say(sendRequestForRecommendation());
