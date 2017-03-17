@@ -85,14 +85,11 @@ slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
 slapp.route('handleKnows', (msg, state) =>{
 	var listOfAllowedNames = ['java','programming','html','software','development','testing'];
 	//msg.say(state2.what);
-	if((state.what.trim()) == "software")
+	if(listOfAllowedNames.indexOf(state.what.trim()) > -1)
 	{
 		msg.say("Huduwai");
 	}
-	else if((state.what.trim()) === "software")
-	{
-		msg.say("Double checking");
-	}else{
+	else{
 		msg.say("Sorry");
 	}
 }) 
