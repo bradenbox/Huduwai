@@ -4,6 +4,8 @@ const Slapp = require('slapp')
 const BeepBoopConvoStore = require('slapp-convo-beepboop')
 const BeepBoopContext = require('slapp-context-beepboop')
 const BeepBoopPersist = require('beepboop-persist')
+const http = require('http');
+
 const Chronos = require('./src/chronos')
 const config = require('./src/config').validate()
 
@@ -30,7 +32,15 @@ slapp.route('handleHi', (msg, state) =>{
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	var listOfNames = "no one";
 	console.log("Calling..."+ "https://slack.com/api/users.list?token=" + slapp.verify_token);
-	httpGetAsync("https://slack.com/api/users.list?token=" + slapp.verify_token, writeNames);
+
+	var options = {
+  		host: 'slack.com',
+  		path: "api/users.list?token=" + slapp.verify_token,
+  		//This is what changes the request to a POST request
+  		method: 'POST'
+	};
+	var req = http.request(options, writeNames);
+	//httpGetAsync("https://slack.com/api/users.list?token=" + slapp.verify_token, writeNames);
 })
 
 function writeNames(responseText){
@@ -38,16 +48,6 @@ function writeNames(responseText){
 }
 
 
-function httpGetAsync(theUrl, callback)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-    }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);
-}
 
 
 console.log('Listening on :' + config.port)
