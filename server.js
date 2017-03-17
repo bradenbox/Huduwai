@@ -18,7 +18,7 @@ var slapp = Slapp({
 
 var server = slapp.attachToExpress(express())
 
-slapp.message('hi (.*)', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
+slapp.message('hi (.*)', 'mention', (msg, text, match1) => {
 	msg.say('How are you?').route('handleHi', {what: match1});
 })
 
