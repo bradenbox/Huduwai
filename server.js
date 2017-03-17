@@ -31,22 +31,23 @@ slapp.route('handleHi', (msg, state) =>{
 
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	var listOfNames = "no one";
+	var token = req.slapp.meta.app_token;
 	var options = {
   		host: 'slack.com',
-  		path: "/api/users.list?token=" + slapp.verify_token ,
+  		path: "/api/users.list?token=" + token  ,
   		//This is what changes the request to a POST request
   		method: 'POST'
 	};
 	console.log(options);
-	var req = https.request(options, function(res) {
+	var request = https.request(options, function(res) {
   		console.log(res.statusCode);
  		 res.on('data', function(d) {
    			 console.log(process.stdout.write(d));
  		 });
 	});
 
-	req.end();
-	req.on('error', function(e) {
+	request.end();
+	request.on('error', function(e) {
   	console.error(e);
 	});
 
