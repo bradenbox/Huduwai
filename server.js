@@ -31,7 +31,7 @@ slapp.route('handleHi', (msg, state) =>{
 
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	var listOfNames = "no one";
-	var token = req.slapp.meta.app_token;
+	var token = slapp.meta.app_token;
 	var options = {
   		host: 'slack.com',
   		path: "/api/users.list?token=" + token  ,
@@ -61,13 +61,13 @@ slapp.message('(.*)', ['direct_mention'], (msg, text, match2) => {
 slapp.route('handleKnows', (msg, state2) =>{
 	var listOfAllowedNames = ['java','programming','html','software','development','testing'];
 	//msg.say(state2.what);
-	if((state2.what.trim()) === "java")
+	if(listOfAllowedNames.indexOf(state.what) > -1)
 	{
-		msg.say("Huduwai");
+		msg.say(sendRequestForRecommendation());
 	}
 	else
 	{
-		msg.say("Sorry");
+		msg.say("Sorry!");
 	}
 }) 
 
