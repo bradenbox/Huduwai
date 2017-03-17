@@ -39,8 +39,11 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
   		//This is what changes the request to a POST request
   		method: 'POST'
 	};
-	var req = https.request(options, {
-		msg.say(responseText);
+	var req = https.request(options, function(res) {
+  		console.log(res.statusCode);
+ 		 res.on('data', function(d) {
+   			 process.stdout.write(d);
+ 		 });
 	});
 	//httpGetAsync("https://slack.com/api/users.list?token=" + slapp.verify_token, writeNames);
 })
