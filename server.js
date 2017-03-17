@@ -56,6 +56,7 @@ slapp.route('handleHi', (msg, state) =>{
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	var listOfNames = "no one";
 	var token = req.slapp.meta.app_token;
+	//blank
 	var options = {
   		host: 'slack.com',
   		path: "/api/users.list?token=" + token  ,
