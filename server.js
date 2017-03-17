@@ -41,7 +41,7 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 	var req = https.request(options, function(res) {
   		console.log(res.statusCode);
  		 res.on('data', function(d) {
-   			 console.log(d);
+   			 console.log(process.stdout.write(d));
  		 });
 	});
 
@@ -60,7 +60,7 @@ slapp.message('(.*)', ['direct_mention'], (msg, text, match2) => {
 slapp.route('handleKnows', (msg, state2) =>{
 	var listOfAllowedNames = ['java','programming','html','software','development','testing'];
 	//msg.say(state2.what);
-	if(listOfAllowedNames.indexOf(state2.what.trim()) > -1)
+	if(listOfAllowedNames.indexOf(state.what) > -1)
 	{
 		msg.say(sendRequestForRecommendation());
 	}
