@@ -4,7 +4,7 @@ const Slapp = require('slapp')
 const BeepBoopConvoStore = require('slapp-convo-beepboop')
 const BeepBoopContext = require('slapp-context-beepboop')
 const BeepBoopPersist = require('beepboop-persist')
-const http = require('https');
+const https = require('https');
 
 const Chronos = require('./src/chronos')
 const config = require('./src/config').validate()
