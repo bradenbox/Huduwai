@@ -48,7 +48,19 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 	//httpGetAsync("https://slack.com/api/users.list?token=" + slapp.verify_token, writeNames);
 })
 
+slapp.message('who knows (.*)', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
+	msg.say('Let me check').route('handleKnows', {what: match1});
+})
 
+slapp.route('handleKnows', (msg, state) =>{
+	var listOfNames = "I don't know";
+	if(state.what === "java")
+	{
+		listOfNames = "Deepika";
+	}
+	
+	msg.say(listOfNames);
+}) 
 
 console.log('Listening on :' + config.port)
 server.listen(config.port)
