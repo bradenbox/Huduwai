@@ -20,6 +20,30 @@ var slapp = Slapp({
 
 var server = slapp.attachToExpress(express())
 
+// Slapp context middleware function
+// Looks up team info from db and enriches request
+module.exports = (db) => {
+  return (req, res, next) => {
+    let teamId = req.slapp.meta.team_id
+
+    db.getTeam(teamId, (err, team) => {
+      if (err) {
+        console.error(err)
+        return res.send(err)
+      }
+
+      req.slapp.meta = Object.assign(req.slapp.meta, {
+        app_token: team.access_token,
+        bot_token: team.bot.bot_access_token,
+        bot_user_id: team.bot.bot_user_id,
+        team_name: team.team_name
+      })
+
+      next()
+    })
+  }
+}
+
 slapp.message('hi (.*)', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	msg.say('How are you?').route('handleHi', {what: match1});
 })
@@ -31,7 +55,7 @@ slapp.route('handleHi', (msg, state) =>{
 
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	var listOfNames = "no one";
-	var token = slapp.meta.app_token;
+	var token = rqe.slapp.meta.app_token;
 	var options = {
   		host: 'slack.com',
   		path: "/api/users.list?token=" + token  ,
