@@ -78,20 +78,22 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 })
 
 
-slapp.message('(.*)', ['direct_mention'], (msg, text, match2) => {
-	msg.say(match2).route('handleKnows', {what: match2});
+slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
+	msg.route('handleKnows', {what: match});
 })
 
-slapp.route('handleKnows', (msg, state2) =>{
+slapp.route('handleKnows', (msg, state) =>{
 	var listOfAllowedNames = ['java','programming','html','software','development','testing'];
 	//msg.say(state2.what);
-	if(listOfAllowedNames.indexOf(state.what) > -1)
+	if((state.what.trim()) == "software")
 	{
-		msg.say(sendRequestForRecommendation());
+		msg.say("Huduwai");
 	}
-	else
+	else if((state.what.trim()) === "software")
 	{
-		msg.say("Sorry!");
+		msg.say("Double checking");
+	}else{
+		msg.say("Sorry");
 	}
 }) 
 
