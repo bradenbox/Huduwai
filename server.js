@@ -41,7 +41,7 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 	var req = https.request(options, function(res) {
   		console.log(res.statusCode);
  		 res.on('data', function(d) {
-   			 process.stdout.write(d);
+   			 console.log(d);
  		 });
 	});
 
