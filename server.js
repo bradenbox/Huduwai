@@ -82,7 +82,7 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 
 
 slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
-	msg.say('Checking').route('handleKnows', {what: match});
+	msg.say('Do you want to know expert for '+ match +' ?').route('handleKnows', {what: match});
 })
 
 slapp.route('handleKnows', (msg, state) =>{
