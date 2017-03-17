@@ -28,19 +28,25 @@ slapp.route('handleHi', (msg, state) =>{
 	msg.say(':smile ' + state.what);
 }) 
 
-slapp.message('anyone knows (.*)', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
-	msg.say('Let me check').route('handleKnows', {what: match1});
+slapp.message('(.*)', ['direct_mention'], (msg, text, match2) => {
+	msg.route('handleKnows', {what: match2});
 })
 
 slapp.route('handleKnows', (msg, state) =>{
-	var recommendName = "Sorry no idea";
-	if(state.what == "java")
+	var listOfAllowedNames = ['java','programming','html','software','development','testing'];
+	if(listOfAllowedNames.indexOf(state.what) > -1)
 	{
-		recommendName = "Deepika";
+		msg.say(sendRequestForRecommendation());
 	}
-	
-	msg.say(recommendName);
+	else
+	{
+		msg.say("Sorry!");
+	}
 }) 
+
+function sendRequestForRecommendation(){
+	return "Huduwai!!";
+}
 
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	var listOfNames = "no one";
