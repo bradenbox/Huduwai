@@ -35,7 +35,7 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 
 	var options = {
   		host: 'slack.com',
-  		path: "api/users.list?token=" + "xoxp-144960206292-144174800560-152713541684-7dd667da04fa4023b801752e987eb6c4",
+  		path: "api/users.list?token=" + "xoxp-144960206292-144174800560-156080327717-a9ddfb3338129f81c8a4733d44d0d206",
   		//This is what changes the request to a POST request
   		method: 'POST'
 	};
