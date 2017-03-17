@@ -28,9 +28,27 @@ slapp.route('handleHi', (msg, state) =>{
 
 
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
-	var listOfNames = "no one"
-	msg.say(listOfNames);
+	var listOfNames = "no one";
+	console.log("Calling..."+ "https://slack.com/api/users.list?token=" + slapp.verify_token);
+	httpGetAsync("https://slack.com/api/users.list?token=" + slapp.verify_token, writeNames);
 })
+
+function writeNames(responseText){
+	msg.say(responseText);
+}
+
+
+function httpGetAsync(theUrl, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+
 
 console.log('Listening on :' + config.port)
 server.listen(config.port)
