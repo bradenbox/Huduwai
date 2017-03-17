@@ -11,7 +11,7 @@ const config = require('./src/config').validate()
 
 var slapp = Slapp({
   verify_token: config.slack_verify_token,
-  app_token: config.app_token,
+  app_token: data.app_token,
   log: config.slapp_log,
   colors: config.slapp_colors,
   record: 'out.jsonl',
@@ -34,7 +34,7 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 	var listOfNames = "no one";
 	var options = {
   		host: 'slack.com',
-  		path: "/api/users.list?token=" + slapp.app_token,
+  		path: "/api/users.list",
   		//This is what changes the request to a POST request
   		method: 'POST'
 	};
