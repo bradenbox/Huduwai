@@ -20,8 +20,6 @@ var slapp = Slapp({
 
 var server = slapp.attachToExpress(express())
 
-var listOfAllowedNames = ['java','programming','html','software','development','testing'];
-
 // Slapp context middleware function
 // Looks up team info from db and enriches request
 module.exports = (db) => {
@@ -58,18 +56,29 @@ slapp.route('handleHi', (msg, state) =>{
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	var listOfNames = "no one";
 
-	var WebClient = require('@slack/client').WebClient;
 
-	var token = process.env.SLACK_API_TOKEN || ''; //see section above on sensitive data
 
-	var web = new WebClient(token);
-	web.chat.postMessage('C1232456', 'Hello there', function(err, res) {
-    	if (err) {
-        	console.log('Error:', err);
-    	} else {
-        	console.log('Message sent: ', res);
-    	}
-});
+	var token = process.env.SLACK_TOKEN || ''; //see section above on sensitive data
+
+	var options = {
+  		host: 'slack.com',
+  		path: "/api/users.list?token=" + token  ,
+  		//This is what changes the request to a POST request
+  		method: 'POST'
+	};
+	console.log(options);
+	var request = https.request(options, function(res) {
+  		console.log(res.statusCode);
+ 		 res.on('data', function(d) {
+   			 console.log(process.stdout.write(d));
+ 		 });
+	});
+
+	request.end();
+		request.on('error', function(e) {
+  	console.error(e);
+	});
+	
 
 
 
@@ -77,25 +86,59 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 
 
 slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
+
 	msg.say('Do you want to know expert for '+ match +' ?').route('handleKnows', {what: match});
 })
 
 slapp.route('handleKnows', (msg, state) =>{
 	var recommend = sendToRecommendFunction(state.what);
 	msg.say(recommend);	
+	msg.say({
+    text: '',
+    attachments: [
+      {
+        text: 'Was the recommendation helpful?',
+        fallback: 'Are you sure?',
+        callback_id: 'doit_confirm_callback',
+        actions: [
+          { name: 'answer', text: 'Yes', type: 'button', value: 'yes' },
+          { name: 'answer', text: 'No', type: 'button', value: 'no' }
+        ]
+      }]
+    })
+  .route('handleDoitConfirmation', state, 60)
 })
 
 function sendToRecommendFunction(matchWord){
-	//return "You got it!!";
-	if(listOfAllowedNames.indexOf(matchWord.trim()) > -1)
-	{
-		 return "Huduwai";
-	}
-	else{
-		listOfAllowedNames.push(matchWord.trim());
-		return "Sorry! I don't know!";
-	}
+	return "SuperUser";
 }
+
+slapp.route('handleDoitConfirmation', (msg, state) => {
+  if (msg.type !== 'action') {
+    msg
+      .say('Please choose a Yes or No button')
+      .route('handleDoitConfirmation', state, 60)
+    return
+  }
+
+  let answer = msg.body.actions[0].value
+  if (answer === 'yes') {
+    msg.respond(msg.body.response_url, {
+      text: `Thanks!`,
+      delete_original: true
+    })
+    return
+  }
+
+  if (answer === 'no') {
+    msg.respond(msg.body.response_url, {
+      text: `Sorry! Better luck next time`,
+      delete_original: true
+    })
+    return
+  }
+  
+})
 
 console.log('Listening on :' + config.port)
 server.listen(config.port)
