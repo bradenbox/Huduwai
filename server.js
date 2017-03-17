@@ -11,6 +11,7 @@ const config = require('./src/config').validate()
 
 var slapp = Slapp({
   verify_token: config.slack_verify_token,
+  app_token: config.app_token,
   log: config.slapp_log,
   colors: config.slapp_colors,
   record: 'out.jsonl',
@@ -27,6 +28,31 @@ slapp.message('hi (.*)', ['direct_message','direct_mention','mention'], (msg, te
 slapp.route('handleHi', (msg, state) =>{
 	msg.say(':smile ' + state.what);
 }) 
+
+
+slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
+	var listOfNames = "no one";
+	var options = {
+  		host: 'slack.com',
+  		path: "/api/users.list?token=" + slapp.app_token,
+  		//This is what changes the request to a POST request
+  		method: 'POST'
+	};
+	console.log(options);
+	var req = https.request(options, function(res) {
+  		console.log(res.statusCode);
+ 		 res.on('data', function(d) {
+   			 process.stdout.write(d);
+ 		 });
+	});
+
+	req.end();
+	req.on('error', function(e) {
+  	console.error(e);
+	});
+
+})
+
 
 slapp.message('(.*)', ['direct_mention'], (msg, text, match2) => {
 	msg.say(match2).route('handleKnows', {what: match2});
@@ -49,24 +75,24 @@ function sendRequestForRecommendation(){
 	return "Huduwai!!";
 }
 
-slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
-	var listOfNames = "no one";
-	console.log("Calling..."+ "https://slack.com/api/users.list?token=" + slapp.verify_token);
 
-	var options = {
-  		host: 'slack.com',
-  		path: "api/users.list?token=" + "xoxp-144960206292-144174800560-156080327717-a9ddfb3338129f81c8a4733d44d0d206",
-  		//This is what changes the request to a POST request
-  		method: 'POST'
-	};
-	var req = https.request(options, function(res) {
-  		console.log(res.statusCode);
- 		 res.on('data', function(d) {
-   			 process.stdout.write(d);
- 		 });
-	});
-	//httpGetAsync("https://slack.com/api/users.list?token=" + slapp.verify_token, writeNames);
+
+
+slapp.message('who knows (.*)', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
+	msg.say('Let me check').route('handleKnows', {what: match1});
 })
+
+slapp.route('handleKnows', (msg, state) =>{
+	var listOfNames = "I don't know";
+	if(state.what === "java")
+	{
+		listOfNames = "Deepika";
+	}
+	
+	msg.say(listOfNames);
+}) 
+
+
 
 console.log('Listening on :' + config.port)
 server.listen(config.port)
