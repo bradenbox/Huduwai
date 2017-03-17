@@ -87,12 +87,12 @@ slapp.route('handleKnows', (msg, state) =>{
 
 function sendToRecommendFunction(matchWord){
 	//return "You got it!!";
-	if(listOfAllowedNames.indexOf(state.what.trim()) > -1)
+	if(listOfAllowedNames.indexOf(matchWord.trim()) > -1)
 	{
 		 return "Huduwai";
 	}
 	else{
-		listOfAllowedNames.push(state.what.trim());
+		listOfAllowedNames.push(matchWord.trim());
 		return "Sorry! I don't know!";
 	}
 }
