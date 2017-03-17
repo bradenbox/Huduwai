@@ -11,7 +11,6 @@ const config = require('./src/config').validate()
 
 var slapp = Slapp({
   verify_token: config.slack_verify_token,
-  app_token: data.app_token,
   log: config.slapp_log,
   colors: config.slapp_colors,
   record: 'out.jsonl',
