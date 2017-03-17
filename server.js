@@ -89,11 +89,11 @@ function sendToRecommendFunction(matchWord){
 	//return "You got it!!";
 	if(listOfAllowedNames.indexOf(state.what.trim()) > -1)
 	{
-		msg.say("Huduwai");
+		 return "Huduwai";
 	}
 	else{
 		listOfAllowedNames.push(state.what.trim());
-		msg.say("Sorry! I don't know!");
+		return "Sorry! I don't know!";
 	}
 }
 
