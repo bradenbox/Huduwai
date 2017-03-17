@@ -31,21 +31,25 @@ slapp.route('handleHi', (msg, state) =>{
 
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	var listOfNames = "no one";
-	console.log("Calling..."+ "https://slack.com/api/users.list?token=" + slapp.verify_token);
-
 	var options = {
   		host: 'slack.com',
-  		path: "api/users.list?token=" + "xoxp-144960206292-144174800560-156080327717-a9ddfb3338129f81c8a4733d44d0d206",
+  		path: "/api/users.list?token=" + slapp.app_token,
   		//This is what changes the request to a POST request
   		method: 'POST'
 	};
+	console.log(options);
 	var req = https.request(options, function(res) {
   		console.log(res.statusCode);
  		 res.on('data', function(d) {
    			 process.stdout.write(d);
  		 });
 	});
-	//httpGetAsync("https://slack.com/api/users.list?token=" + slapp.verify_token, writeNames);
+
+	req.end();
+	req.on('error', function(e) {
+  	console.error(e);
+	});
+
 })
 
 slapp.message('who knows (.*)', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
@@ -61,6 +65,8 @@ slapp.route('handleKnows', (msg, state) =>{
 	
 	msg.say(listOfNames);
 }) 
+
+
 
 console.log('Listening on :' + config.port)
 server.listen(config.port)
