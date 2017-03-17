@@ -18,13 +18,25 @@ var slapp = Slapp({
 
 var server = slapp.attachToExpress(express())
 
-slapp.message('hi (.*)', 'mention', (msg, text, match1) => {
+/*slapp.message('hi (.*)', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	msg.say('How are you?').route('handleHi', {what: match1});
 })
 
 
 slapp.route('handleHi', (msg, state) =>{
-	msg.say(':smile: ' + state.what);
+	msg.say(':smile ' + state.what);
+}) */
+
+slapp.message('^(hi|hello|hey).*', ['direct_mention', 'direct_message'], (msg, text, greeting) => {
+  msg
+    .say(`${greeting}, how are you?`)
+    .route('handleHowAreYou')  // where to route the next msg in the conversation
+})
+
+// register a route handler
+slapp.route('handleHowAreYou', (msg) => {
+  // respond with a random entry from array
+  msg.say(['Me too', 'Noted', 'That is interesting'])
 })
 
 
