@@ -27,7 +27,7 @@ slapp.route('handleHi', (msg, state) =>{
 	msg.say(':smile ' + state.what);
 }) */
 
-slapp.message('^(hi|hello|hey).*', ['direct_mention', 'direct_message'], (msg, text, greeting) => {
+slapp.message('^(hi|hello|hey).*', ['direct_mention'], (msg, text, greeting) => {
   msg
     .say(`${greeting}, how are you?`)
     .route('handleHowAreYou')  // where to route the next msg in the conversation
