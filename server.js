@@ -57,7 +57,7 @@ slapp.route('handleHi', (msg, state) =>{
 
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
 	var listOfNames = "no one";
-	var token = process.env.SLACK_API_TOKEN;
+	var token = process.env.SLACK_API_TOKEN || '';;
 	//blank
 	var options = {
   		host: 'slack.com',
