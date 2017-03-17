@@ -74,7 +74,10 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
  		 });
 	});
 
-
+	request.end();
+		request.on('error', function(e) {
+  	console.error(e);
+	});
 	
 
 
