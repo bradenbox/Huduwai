@@ -33,13 +33,13 @@ slapp.message('anyone knows (.*)', ['direct_message','direct_mention','mention']
 })
 
 slapp.route('handleKnows', (msg, state) =>{
-	var listOfNames = "I don't know";
+	var recommendName = "Sorry no idea";
 	if(state.what == "java")
 	{
-		listOfNames = "Deepika";
+		recommendName = "Deepika";
 	}
 	
-	msg.say(listOfNames);
+	msg.say(recommendName);
 }) 
 
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
