@@ -24,7 +24,7 @@ slapp.message('hi (.*)', 'mention', (msg, text, match1) => {
 
 
 slapp.route('handleHi', (msg, state) =>{
-	msg.say(':smile ' + state.what);
+	msg.say(':smile: ' + state.what);
 })
 
 
