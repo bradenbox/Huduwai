@@ -95,11 +95,7 @@ slapp.route('handleKnows', (msg, state) =>{
 		listOfAllowedNames.push(state.what.trim());
 		msg.say("Sorry");
 	}
-}) 
-
-function sendRequestForRecommendation(){
-	return "Huduwai!!";
-}
+})
 
 console.log('Listening on :' + config.port)
 server.listen(config.port)
