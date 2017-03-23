@@ -19,6 +19,7 @@ var slapp = Slapp({
 })
 
 var server = slapp.attachToExpress(express())
+var listOfAllowedNames = ['java','programming','html','software','development','testing'];
 
 // Slapp context middleware function
 // Looks up team info from db and enriches request
@@ -76,7 +77,7 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 			 
  		 });
 		res.on('end', function(){
-			jsonObj = JSON.parse(apiData);
+			var jsonObj = JSON.parse(apiData);
 			for(i=0;i<jsonObj.members.length; i++){
 				peopleInSlack.push(jsonObj.members[i].name);
 			}
@@ -108,52 +109,19 @@ slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
 slapp.route('handleKnows', (msg, state) =>{
 	var recommend = sendToRecommendFunction(state.what);
 	msg.say(recommend);	
-	msg.say({
-    text: '',
-    attachments: [
-      {
-        text: 'Was the recommendation helpful?',
-        fallback: 'Are you sure?',
-        callback_id: 'doit_confirm_callback',
-        actions: [
-          { name: 'answer', text: 'Yes', type: 'button', value: 'yes' },
-          { name: 'answer', text: 'No', type: 'button', value: 'no' }
-        ]
-      }]
-    })
-  .route('handleDoitConfirmation', state, 60)
 })
 
 function sendToRecommendFunction(matchWord){
-	return "SuperUser";
+	//return "You got it!!";
+	if(listOfAllowedNames.indexOf(matchWord.trim()) > -1)
+	{
+		 return "Huduwai";
+	}
+	else{
+		listOfAllowedNames.push(matchWord.trim());
+		return "Sorry! I don't know!";
+	}
 }
-
-slapp.route('handleDoitConfirmation', (msg, state) => {
-  if (msg.type !== 'action') {
-    msg
-      .say('Please choose a Yes or No button')
-      .route('handleDoitConfirmation', state, 60)
-    return
-  }
-
-  let answer = msg.body.actions[0].value
-  if (answer === 'yes') {
-    msg.respond(msg.body.response_url, {
-      text: `Thanks!`,
-      delete_original: true
-    })
-    return
-  }
-
-  if (answer === 'no') {
-    msg.respond(msg.body.response_url, {
-      text: `Sorry! Better luck next time`,
-      delete_original: true
-    })
-    return
-  }
-  
-})
 
 console.log('Listening on :' + config.port)
 server.listen(config.port)
