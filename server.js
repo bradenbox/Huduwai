@@ -114,17 +114,17 @@ slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
                    		 "value": "Awesome Project",
                    		 "short": true
                		 },
-                {
-                    "title": "Environment",
-                    "value": "production",
-                    "short": true
-                }
-            ],
-            "color": "#F35A00"
-        }
-    ]
+                	{
+                    		"title": "Environment",
+                   		 "value": "production",
+                   		 "short": true
+               		 }
+            	],
+            	"color": "#F35A00"
+       	 }
+    	]
 }
-        msg.respond(message)
+        msg.say(message);
 })
 
 slapp.route('handleKnows', (msg, state) =>{
