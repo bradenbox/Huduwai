@@ -103,6 +103,7 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
 
 	var message = {
+		"text": "This is your first interactive message",
     		"attachments": [
        		 {
            		"fallback": "ReferenceError - UI is not defined: https://honeybadger.io/path/to/event/",
