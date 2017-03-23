@@ -122,7 +122,7 @@ slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
 slapp.action('yesno_callback', 'answer', (msg, value) => {
 	msg.respond(msg.body.response_url, `${value} is a good choice!`)
 	if (value == 'yes'){
-		msg.say("Great! Please give me thier slack username").route('handleKnowsSomeone', {what: match1});
+		msg.say("Great! Please give me thier slack username").route('handleKnowsSomeone', {what: value});
 	}
 	else{
 		msg.say("Okay, I'll ask the group so I can learn better");
