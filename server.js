@@ -103,28 +103,24 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
 
 	var message = {
-		"text": "This is your first interactive message",
+		"text": "I don't know, can you suggest someone?",
     		"attachments": [
        		 {
-           		"fallback": "ReferenceError - UI is not defined: https://honeybadger.io/path/to/event/",
-            		"text": "<https://honeybadger.io/path/to/event/|ReferenceError> - UI is not defined",
-            		"fields": [
-               		 {
-                   		 "title": "Project",
-                   		 "value": "Awesome Project",
-                   		 "short": true
-               		 },
-                	{
-                    		"title": "Environment",
-                   		 "value": "production",
-                   		 "short": true
-               		 }
-            	],
-            	"color": "#F35A00"
+           		text: '',
+         		fallback: 'Yes or No?',
+        		callback_id: 'yesno_callback',
+         		actions: [
+            		{ name: 'answer', text: 'Yes', type: 'button', value: 'yes' },
+            		{ name: 'answer', text: 'No',  type: 'button',  value: 'no' }
+          ]
        	 }
     	]
 }
         msg.say(message);
+})
+
+slapp.action('yesno_callback', 'answer', (msg, value) => {
+  msg.respond(msg.body.response_url, `${value} is a good choice!`)
 })
 
 slapp.route('handleKnows', (msg, state) =>{
