@@ -78,7 +78,7 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
  		 });
 		res.on('end', function(){
 			var jsonObj = JSON.parse(apiData);
-			for(i=0;i<jsonObj.members.length; i++){
+			for(var i=0;i<jsonObj.members.length; i++){
 				peopleInSlack.push(jsonObj.members[i].name);
 			}
 			console.log(peopleInSlack);
