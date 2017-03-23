@@ -102,7 +102,6 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 
 slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
 
-	msg.say("I don't know!");
 	var message = {
     		"attachments": [
        		 {
