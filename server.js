@@ -55,7 +55,7 @@ slapp.route('handleHi', (msg, state) =>{
 
 
 slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, match1) => {
-	var listOfNames = "no one";
+	var peopleInSlack = [];
 
 
 
@@ -67,18 +67,33 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
   		//This is what changes the request to a POST request
   		method: 'POST'
 	};
-	console.log(options);
+	
 	var request = https.request(options, function(res) {
-  		console.log(res.statusCode);
+ 
+		 var apiData = '';
  		 res.on('data', function(d) {
-   			 console.log(process.stdout.write(d));
+			apiData += d;
+			
+			 
  		 });
-	});
+		res.on('end', function(){
+			jsonObj = JSON.parse(apiData);
+			for(i=0;i<jsonObj.members.length; i++){
+				peopleInSlack.push(jsonObj.members[i].name);
+			}
+			console.log(peopleInSlack);
+			msg.say("These are the people in my neighbourhood: "  + peopleInSlack);
+		});
+
+		request.on('error', function(e) {
+  			console.error(e);
+		});
+	}); 
+
+	
+ 		
 
 	request.end();
-		request.on('error', function(e) {
-  	console.error(e);
-	});
 	
 
 
