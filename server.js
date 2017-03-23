@@ -19,7 +19,6 @@ var slapp = Slapp({
 })
 
 var server = slapp.attachToExpress(express())
-var listOfAllowedNames = ['java','programming','html','software','development','testing'];
 
 // Slapp context middleware function
 // Looks up team info from db and enriches request
@@ -103,7 +102,29 @@ slapp.message('who', ['direct_message','direct_mention','mention'], (msg, text, 
 
 slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
 
-	msg.say('Do you want to know expert for '+ match +' ?').route('handleKnows', {what: match});
+	msg.say("I don't know!");
+	message = {
+    		"attachments": [
+       		 {
+           		"fallback": "ReferenceError - UI is not defined: https://honeybadger.io/path/to/event/",
+            		"text": "<https://honeybadger.io/path/to/event/|ReferenceError> - UI is not defined",
+            		"fields": [
+               		 {
+                   		 "title": "Project",
+                   		 "value": "Awesome Project",
+                   		 "short": true
+               		 },
+                {
+                    "title": "Environment",
+                    "value": "production",
+                    "short": true
+                }
+            ],
+            "color": "#F35A00"
+        }
+    ]
+}
+        msg.respond(message)
 })
 
 slapp.route('handleKnows', (msg, state) =>{
