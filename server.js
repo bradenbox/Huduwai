@@ -120,7 +120,18 @@ slapp.message('(.*)', ['direct_message'], (msg, text, match) => {
 })
 
 slapp.action('yesno_callback', 'answer', (msg, value) => {
-  msg.respond(msg.body.response_url, `${value} is a good choice!`)
+	msg.respond(msg.body.response_url, `${value} is a good choice!`)
+	if (value == 'yes'){
+		msg.say("Great! Please give me thier slack username").route('handleKnowsSomeone', {what: match1});
+	}
+	else{
+		msg.say("Okay, I'll ask the group so I can learn better");
+	}
+})
+
+slapp.route('handleKnowsSomeone', (msg, state) =>{
+	var recommend = sendToRecommendFunction(state.what);
+	msg.say("I'll consider " + state + " in the future.");	
 })
 
 slapp.route('handleKnows', (msg, state) =>{
