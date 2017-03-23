@@ -141,14 +141,7 @@ slapp.route('handleKnows', (msg, state) =>{
 
 function sendToRecommendFunction(matchWord){
 	//return "You got it!!";
-	if(listOfAllowedNames.indexOf(matchWord.trim()) > -1)
-	{
-		 return "Huduwai";
-	}
-	else{
-		listOfAllowedNames.push(matchWord.trim());
-		return "Sorry! I don't know!";
-	}
+
 }
 
 console.log('Listening on :' + config.port)
